@@ -161,6 +161,10 @@ class Object
 
       puts "[pry-remote] Client received, starting remote sesion"
       Pry.start(self, :input => client.input_proxy, :output => client.output)
+    rescue DRb::DRbConnError
+      puts "[pry-remote] Client disconnected"
+    rescue DRb::DRbError
+      puts "[pry-remote] DRb error: #{$!}"
     ensure
       # Reset output streams
       $stdout = old_stdout
